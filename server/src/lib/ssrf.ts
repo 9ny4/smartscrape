@@ -64,9 +64,10 @@ export async function assertSafeUrl(input: string): Promise<UrlCheckResult> {
   }
   // Node's URL keeps the brackets on IPv6 hostnames (e.g. `[::1]`), but
   // net.isIP wants the bare address. Strip them before any check.
-  const hostname = url.hostname.startsWith('[') && url.hostname.endsWith(']')
-    ? url.hostname.slice(1, -1)
-    : url.hostname;
+  const hostname =
+    url.hostname.startsWith('[') && url.hostname.endsWith(']')
+      ? url.hostname.slice(1, -1)
+      : url.hostname;
   if (!hostname) return { ok: false, reason: 'Missing hostname' };
 
   // Literal IPs: check directly.
