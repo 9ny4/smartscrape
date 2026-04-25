@@ -80,7 +80,11 @@ describe('assertSafeUrl', () => {
     if (!r.ok) expect(r.reason).toMatch(/private/i);
   });
 
-  it('rejects localhost by name even if DNS would succeed', async () => {
+  it('rejects localhost by name', async () => {
+    // Whether localhost resolves to 127.0.0.1 (Windows / dev box with IPv6
+    // enabled) or fails to resolve at all (some CI containers without local
+    // resolver), the result is the same: `ok: false`. We don't assert on the
+    // reason text — it's an implementation detail.
     const r = await assertSafeUrl('http://localhost');
     expect(r.ok).toBe(false);
   });
