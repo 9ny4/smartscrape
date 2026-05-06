@@ -14,7 +14,18 @@ const BROWSER_UA =
 const MAX_BYTES = 5 * 1024 * 1024; // 5 MB
 const MIN_VISIBLE_TEXT = 200; // below this, fall back to Playwright
 const PER_HOST_DELAY_MS = 2_000;
-const MAX_PLAYWRIGHT_CONTEXTS = Number(process.env.SCRAPER_MAX_PLAYWRIGHT_CONTEXTS ?? '2');
+function readMaxPlaywrightContexts(): number {
+  const raw = process.env.SCRAPER_MAX_PLAYWRIGHT_CONTEXTS;
+  if (raw === undefined || raw === '') return 2;
+  const parsed = Number(raw);
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    throw new Error(
+      `SCRAPER_MAX_PLAYWRIGHT_CONTEXTS must be a positive integer (got ${JSON.stringify(raw)})`,
+    );
+  }
+  return parsed;
+}
+const MAX_PLAYWRIGHT_CONTEXTS = readMaxPlaywrightContexts();
 
 export type ScrapeMethod = 'auto' | 'cheerio' | 'playwright';
 
