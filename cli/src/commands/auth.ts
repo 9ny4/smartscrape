@@ -1,14 +1,7 @@
 import { Command } from 'commander';
 import { createClient, extractRefreshCookie } from '../api.js';
 import { clearConfig, configFilePath, loadConfig, saveConfig } from '../config.js';
-import {
-  CliError,
-  EXIT,
-  emitJson,
-  emitText,
-  runCommand,
-  type GlobalFlags,
-} from '../output.js';
+import { CliError, EXIT, emitJson, emitText, runCommand, type GlobalFlags } from '../output.js';
 import type { ApiResponse, UserPublic } from '../types.js';
 
 type LoginResponse = {

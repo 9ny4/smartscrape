@@ -1,13 +1,6 @@
 import { Command } from 'commander';
 import { createClient, requireToken } from '../api.js';
-import {
-  CliError,
-  EXIT,
-  emitJson,
-  emitText,
-  runCommand,
-  type GlobalFlags,
-} from '../output.js';
+import { CliError, EXIT, emitJson, emitText, runCommand, type GlobalFlags } from '../output.js';
 
 export function notificationsCommand(getFlags: () => GlobalFlags): Command {
   const notif = new Command('notifications').description('Test and inspect notification channels');

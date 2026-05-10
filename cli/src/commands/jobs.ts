@@ -76,14 +76,12 @@ function parseSchedule(input: string | undefined): string | null | undefined {
   return input;
 }
 
-function buildCreateBody(opts: Record<string, string | string[] | boolean | undefined>): CreateInput {
+function buildCreateBody(
+  opts: Record<string, string | string[] | boolean | undefined>,
+): CreateInput {
   const urls = (opts.url as string[] | undefined) ?? [];
   if (urls.length === 0) {
-    throw new CliError(
-      'At least one --url is required',
-      EXIT.VALIDATION,
-      'MISSING_URL',
-    );
+    throw new CliError('At least one --url is required', EXIT.VALIDATION, 'MISSING_URL');
   }
   const body: CreateInput = {
     name: String(opts.name),
@@ -105,7 +103,9 @@ function buildCreateBody(opts: Record<string, string | string[] | boolean | unde
       | undefined;
   }
   if (opts.channels !== undefined) {
-    body.notify_channels = (opts.channels as string).split(',').map((s) => s.trim()) as NotifyChannel[];
+    body.notify_channels = (opts.channels as string)
+      .split(',')
+      .map((s) => s.trim()) as NotifyChannel[];
   }
   if (opts.comparisonKey !== undefined) body.comparison_key = String(opts.comparisonKey);
   if (opts.provider !== undefined) body.ai_provider = opts.provider as Provider;

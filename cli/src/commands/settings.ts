@@ -48,11 +48,7 @@ export function settingsCommand(getFlags: () => GlobalFlags): Command {
         for (const p of pairs) {
           const idx = p.indexOf('=');
           if (idx === -1)
-            throw new CliError(
-              `Bad pair '${p}' — use key=value`,
-              EXIT.VALIDATION,
-              'BAD_PAIR',
-            );
+            throw new CliError(`Bad pair '${p}' — use key=value`, EXIT.VALIDATION, 'BAD_PAIR');
           patch[p.slice(0, idx)] = p.slice(idx + 1);
         }
         const client = createClient({ url: flags.url, token: flags.token });

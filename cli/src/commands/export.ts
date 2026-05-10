@@ -1,13 +1,6 @@
 import { Command } from 'commander';
 import { createClient, requireToken } from '../api.js';
-import {
-  CliError,
-  EXIT,
-  emitJson,
-  emitText,
-  runCommand,
-  type GlobalFlags,
-} from '../output.js';
+import { CliError, EXIT, emitJson, emitText, runCommand, type GlobalFlags } from '../output.js';
 import type { ExtractedDataDTO, RunDTO } from '../types.js';
 
 /**
@@ -20,7 +13,7 @@ export function exportCommand(getFlags: () => GlobalFlags): Command {
     .argument('<jobId>')
     .option('--csv', 'Stream the server-rendered CSV to stdout')
     .option('--json', 'Print the extracted-data rows as JSON')
-    .option('--sheets', 'Push the latest run to the job\'s linked Google Sheet')
+    .option('--sheets', "Push the latest run to the job's linked Google Sheet")
     .option('--run-id <id>', 'Use a specific run instead of the latest completed one')
     .action(
       async (
@@ -78,7 +71,9 @@ export function exportCommand(getFlags: () => GlobalFlags): Command {
           }
 
           // JSON path — fetch raw rows via /api/runs/:id/data.
-          const data = await client.request<{ data: ExtractedDataDTO[] }>(`/api/runs/${runId}/data`);
+          const data = await client.request<{ data: ExtractedDataDTO[] }>(
+            `/api/runs/${runId}/data`,
+          );
           process.stdout.write(JSON.stringify(data.data, null, 2) + '\n');
         });
       },

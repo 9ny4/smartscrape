@@ -95,9 +95,10 @@ export function runsCommand(getFlags: () => GlobalFlags): Command {
           emitText('(no rows)', flags);
           return;
         }
-        const fields = Array.from(
-          new Set(data.data.flatMap((row) => Object.keys(row.data))),
-        ).slice(0, 6);
+        const fields = Array.from(new Set(data.data.flatMap((row) => Object.keys(row.data)))).slice(
+          0,
+          6,
+        );
         const head = ['Source', ...fields];
         const rows = data.data.map((row) => [
           row.source_url,
@@ -142,7 +143,10 @@ export function runsCommand(getFlags: () => GlobalFlags): Command {
           for (const c of d.changed.slice(0, 10)) {
             emitText(`\n• ${c.key ?? '(no key)'}`, flags);
             for (const fd of c.field_diffs) {
-              emitText(`    ${fd.field}: ${JSON.stringify(fd.old)} → ${JSON.stringify(fd.new)}`, flags);
+              emitText(
+                `    ${fd.field}: ${JSON.stringify(fd.old)} → ${JSON.stringify(fd.new)}`,
+                flags,
+              );
             }
           }
         }

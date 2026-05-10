@@ -45,9 +45,10 @@ export function resultsCommand(getFlags: () => GlobalFlags): Command {
           emitText('(no rows)', flags);
           return;
         }
-        const fields = Array.from(
-          new Set(data.data.flatMap((row) => Object.keys(row.data))),
-        ).slice(0, 6);
+        const fields = Array.from(new Set(data.data.flatMap((row) => Object.keys(row.data)))).slice(
+          0,
+          6,
+        );
         const rows = data.data.map((row) => [
           row.source_url,
           ...fields.map((f) => {

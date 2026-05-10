@@ -76,8 +76,11 @@ export async function runCommand(
     if (err instanceof CliError) {
       if (isJson(flags)) {
         process.stdout.write(
-          JSON.stringify({ success: false, error: { code: err.code ?? 'CLI_ERROR', message: err.message } }, null, 2) +
-            '\n',
+          JSON.stringify(
+            { success: false, error: { code: err.code ?? 'CLI_ERROR', message: err.message } },
+            null,
+            2,
+          ) + '\n',
         );
       } else {
         emitError(`Error: ${err.message}`);

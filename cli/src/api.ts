@@ -103,7 +103,11 @@ export function extractRefreshCookie(setCookieHeader: string): string | null {
 export function createClient(overrides?: { url?: string; token?: string }): ApiClient {
   const session = resolveSession(overrides);
 
-  async function doFetch(path: string, opts: RequestOpts = {}, token: string | null): Promise<Response> {
+  async function doFetch(
+    path: string,
+    opts: RequestOpts = {},
+    token: string | null,
+  ): Promise<Response> {
     const url = buildUrl(session.url, path, opts.query);
     const headers: Record<string, string> = {
       accept: 'application/json',
@@ -144,10 +148,7 @@ export function createClient(overrides?: { url?: string; token?: string }): ApiC
           EXIT.ERROR,
         );
       }
-      throw new CliError(
-        `Request to ${path} failed: HTTP ${res.status}`,
-        statusToExit(res.status),
-      );
+      throw new CliError(`Request to ${path} failed: HTTP ${res.status}`, statusToExit(res.status));
     }
     let parsed: ApiResponse<T>;
     try {
@@ -156,7 +157,11 @@ export function createClient(overrides?: { url?: string; token?: string }): ApiC
       throw new CliError(`Invalid JSON from ${path}`, EXIT.ERROR);
     }
     if (!res.ok || !parsed.success) {
-      throw apiErrorToCli(res.status, parsed.success === false ? parsed.error : null, `HTTP ${res.status}`);
+      throw apiErrorToCli(
+        res.status,
+        parsed.success === false ? parsed.error : null,
+        `HTTP ${res.status}`,
+      );
     }
     return parsed.data;
   }
